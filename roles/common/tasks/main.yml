@@ -1,0 +1,47 @@
+  - name: Upgrade apt to the latest packages
+    apt:
+      upgrade: full
+      update_cache: yes
+
+  - name: Run apt autoremove (remove un-needed files)
+    apt:
+      autoremove: yes
+
+  - name: Creating {{ run_user }} group
+    group:
+      name: "{{ run_user }}"
+      state: present
+
+  - name: Creating {{ run_user }} user to run Docker containers as.
+    user:
+      name: "{{ run_user }}"
+      shell: /bin/bash
+      state: present
+      group: "{{ run_user }}"
+      append: yes
+
+  - name: Install Needed Programs and Dependencies
+    apt:
+      name: "{{ item }}"
+      state: installed
+    with_items:
+    - linux-image-extra-virtual
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - curl
+    - wget
+    - git
+    - python-pip
+
+  - name: Upgrade pip
+    pip:
+      name: pip
+      extra_args: --upgrade
+
+  - name: Install docker-py
+    pip:
+      name: "{{ item }}"
+    with_items:
+    - setuptools
+    - docker-py

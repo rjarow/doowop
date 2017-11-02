@@ -1,0 +1,21 @@
+  - name: Ensure Docker repository key is installed
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Ensure docker registry is available
+    apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable' state=present
+
+  - name: Ensure docker and dependencies are installed
+    apt: name=docker-ce update_cache=yes
+    notify: Restart Docker
+
+  - name: Add "{{ run_user }}" to Docker group
+    user:
+      name: "{{ run_user }}"
+      groups: docker, {{ run_user }}
+      append: yes
+  
+  - name: Install Docker-Py
+    pip:
+      name: docker-py

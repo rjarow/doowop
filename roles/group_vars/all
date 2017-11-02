@@ -1,0 +1,11 @@
+###############################################################################
+### Edit ###
+
+### Set your timezone ### 
+timezone: America/New_York
+
+### Your username to login and manage server ###
+run_user: abc
+
+### SSH Port
+ssh_port: 22

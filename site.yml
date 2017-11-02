@@ -11,3 +11,9 @@
     raw: test -e /usr/bin/ansible || (apt install -y ansible)
 
   - setup: # gather_facts
+
+  roles:
+###  Main roles (Do not comment them out) ###
+    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt / folder structure
+    - { role: docker, tags: [ "docker" ] } # docker install / docker user setup
+    - { role: ufw, tags: [ "ufw" ] } # firewall install
