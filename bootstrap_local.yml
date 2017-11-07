@@ -1,20 +1,19 @@
 ---
 
-- hosts: local
+- hosts: 127.0.0.1
   become: no
-  remote_user: root
   gather_facts: False
   connection: local
 
 ### This takes care of making sure python2 is installed and if we want to run any plays locally in the future. Needed for Ubuntu 16.04 ###
-    pre_tasks:
+  pre_tasks:
   - name: Check for ansible and install if missing, then gather facts
-    raw: test -e /usr/bin/ansible || (apt install -y ansible)
+    raw: test -e /usr/bin/ansible || (sudo apt-get install -y ansible)
 
   - setup: # gather_facts
 
   roles:
 ###  Main Roles ###
-    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt / folder structure
-    - { role: docker, tags: [ "docker" ] } # docker install / docker user setup
+    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt 
+    - { role: docker, tags: [ "docker" ] } # docker install
     - { role: ufw, tags: [ "ufw" ] } # firewall install

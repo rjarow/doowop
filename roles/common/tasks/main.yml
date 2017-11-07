@@ -1,11 +1,7 @@
   - name: Upgrade apt to the latest packages
     apt:
-      upgrade: full
+      upgrade: dist
       update_cache: yes
-
-  - name: Run apt autoremove (remove un-needed files)
-    apt:
-      autoremove: yes
 
   - name: Install Needed Programs and Dependencies
     apt:
@@ -26,7 +22,7 @@
       name: pip
       extra_args: --upgrade
 
-  - name: Install docker-py
+  - name: Install Pip tools 
     pip:
       name: "{{ item }}"
     with_items:

@@ -30,7 +30,7 @@
 
   - name: Enable UFW logging
     ufw:
-      logging: on
+      logging: full
 
   - name: Enable UFW & Restart UFW
     ufw:

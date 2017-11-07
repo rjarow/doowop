@@ -1,0 +1,27 @@
+---
+
+- hosts: localhost
+  gather_facts: False
+
+  vars_prompt:
+  - name: target_host
+    prompt: Please Enter the Target Host IP
+    private: no
+  
+  pre_tasks:
+    - name: Add Host to Group
+      add_host:
+        name: "{{ target_host }}"
+        group: target_group
+
+# After host is added, setup.
+- hosts: target_group
+  gather_facts: yes
+  remote_user: user
+  become: yes
+
+  roles:
+###  Main Roles ###
+    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt 
+    - { role: docker, tags: [ "docker" ] } # docker install 
+    - { role: ufw, tags: [ "ufw" ] } # firewall install
