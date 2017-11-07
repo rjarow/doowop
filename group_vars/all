@@ -4,9 +4,9 @@
 ### Set your timezone ### 
 timezone: America/New_York
 
-### Your username to login and manage server (this user will be given sudo access, and added to docker group) ###
-run_user: abc
-
-### SSH Port
+### SSH Port, only change this if you've changed your ssh port ###
 ssh_port: 22
 
+### docker user, leave this blank if you intend to run things as root. ###
+### every provider seems to do this differently, some give you user, and others give you root, and AWS sometimes gives you ec2-user ###
+docker_user:

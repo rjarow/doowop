@@ -1,14 +1,9 @@
 ---
 
 - hosts: 127.0.0.1
-  become: no
+  become: yes
   gather_facts: False
   connection: local
-
-  vars_prompt:
-  - name: docker_user
-    prompt: Please Enter the user you'd like to allow docker access to (likely your current login)
-    private: no
 
 ### This takes care of making sure python2 is installed and if we want to run any plays locally in the future. Needed for Ubuntu 16.04 ###
   pre_tasks:

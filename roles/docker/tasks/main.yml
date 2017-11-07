@@ -10,9 +10,12 @@
     apt: name=docker-ce update_cache=yes
     notify: Restart Docker
 
-  - name: Add "{{ run_user }}" to Docker group
+  - name: DEBUG Print docker user
+    debug: msg="{{ docker_user }}"
+
+  - name: Add Admin user to docker group
     user:
-      name: "{{ run_user }}"
-      groups: docker, {{ run_user }}
+      name: "{{ docker_user }}"
+      groups: docker
       append: yes
-    when: docker_user is defined    
+    when: docker_user is defined
