@@ -1,9 +1,10 @@
 ---
 
-- hosts: all
+- hosts: local
   become: no
   remote_user: root
   gather_facts: False
+  connection: local
 
 ### This takes care of making sure python2 is installed and if we want to run any plays locally in the future. Needed for Ubuntu 16.04 ###
     pre_tasks:
@@ -13,7 +14,7 @@
   - setup: # gather_facts
 
   roles:
-###  Main roles (Do not comment them out) ###
+###  Main Roles ###
     - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt / folder structure
     - { role: docker, tags: [ "docker" ] } # docker install / docker user setup
     - { role: ufw, tags: [ "ufw" ] } # firewall install

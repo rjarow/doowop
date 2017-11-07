@@ -4,8 +4,9 @@
 ### Set your timezone ### 
 timezone: America/New_York
 
-### Your username to login and manage server ###
+### Your username to login and manage server (this user will be given sudo access, and added to docker group) ###
 run_user: abc
 
 ### SSH Port
 ssh_port: 22
+

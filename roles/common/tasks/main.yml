@@ -7,19 +7,6 @@
     apt:
       autoremove: yes
 
-  - name: Creating {{ run_user }} group
-    group:
-      name: "{{ run_user }}"
-      state: present
-
-  - name: Creating {{ run_user }} user to run Docker containers as.
-    user:
-      name: "{{ run_user }}"
-      shell: /bin/bash
-      state: present
-      group: "{{ run_user }}"
-      append: yes
-
   - name: Install Needed Programs and Dependencies
     apt:
       name: "{{ item }}"
@@ -45,3 +32,6 @@
     with_items:
     - setuptools
     - docker-py
+    - passlib
+
+
