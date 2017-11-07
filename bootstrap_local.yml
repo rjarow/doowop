@@ -5,6 +5,11 @@
   gather_facts: False
   connection: local
 
+  var_prompts:
+  - name: docker_user
+    prompt: Please Enter the user you'd like to allow docker access to (likely your current login)
+    private: no
+
 ### This takes care of making sure python2 is installed and if we want to run any plays locally in the future. Needed for Ubuntu 16.04 ###
   pre_tasks:
   - name: Check for ansible and install if missing, then gather facts

@@ -9,3 +9,10 @@
   - name: Ensure docker and dependencies are installed
     apt: name=docker-ce update_cache=yes
     notify: Restart Docker
+
+  - name: Add "{{ run_user }}" to Docker group
+    user:
+      name: "{{ run_user }}"
+      groups: docker, {{ run_user }}
+      append: yes
+    when: docker_user is defined    
