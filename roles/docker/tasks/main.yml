@@ -10,8 +10,8 @@
     apt: name=docker-ce update_cache=yes
     notify: Restart Docker
 
-  - name: DEBUG Print docker user
-    debug: msg="{{ docker_user }}"
+  # - name: DEBUG Print docker user
+  #   debug: msg="{{ docker_user }}"
 
   - name: Add Admin user to docker group
     user:

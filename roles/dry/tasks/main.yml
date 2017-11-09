@@ -1,0 +1,21 @@
+### https://github.com/moncho/dry
+
+- name: Download Dry (top-like tool for Docker)
+  get_url:
+    url: https://moncho.github.io/dry/dryup.sh
+    dest: /root/dryup.sh
+    mode: 0755
+
+- name: Install Dry
+  shell: /root/dryup.sh
+  args: 
+    chdir: /root
+    creates: /usr/local/bin/dry
+    executable: /bin/bash
+
+- name: chown / chmod Dry for use
+  file:
+    path: /usr/local/bin/dry
+    owner: root
+    group: docker
+    mode: 0755
