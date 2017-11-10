@@ -37,7 +37,7 @@
     published_ports:
       - 80:80
       - 443:443
-    user: "{{ docker_user_id.stdout }}"
+#    user: "{{ docker_user_id.stdout }}"
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy="true"
     networks:
@@ -54,6 +54,6 @@
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
-    user: "{{ docker_user_id.stdout }}" 
+#    user: "{{ docker_user_id.stdout }}" 
     networks:
       - name: "{{ docker_network_name }}"
