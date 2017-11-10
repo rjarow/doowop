@@ -40,9 +40,11 @@
     log_driver: syslog
     log_opt:
       tag: nginx
-    user: "{{ docker_user_id }}"
+    user: "{{ docker_user_id.stdout }}"
     labels:
-      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy:""
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=""
+    networks:
+      - name: "{{ docker_network_name }}"
 
 - name: Create LetsEncrypt companion for nginx-proxy
   docker_container:
@@ -51,7 +53,9 @@
     state: started
     restart_policy: unless-stopped
     volumes:
-      - "{{ configdir }}/certs: /etc/nginx/certs:rw"
+      - "{{ configdir }}/certs:/etc/nginx/certs:rw"
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
+    networks:
+      - name: "{{ docker_network_name }}"
