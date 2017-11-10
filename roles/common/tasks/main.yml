@@ -1,3 +1,8 @@
+  - name: Make sure Ansible PPA is in place
+    apt_repository:
+      repo: 'ppa:ansible/ansible'
+      state: present
+
   - name: Upgrade apt to the latest packages
     apt:
       upgrade: dist
@@ -17,6 +22,7 @@
     - wget
     - git
     - python-pip
+    - ansible
 
   - name: Upgrade pip
     pip:

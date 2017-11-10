@@ -17,8 +17,9 @@
     - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt 
     - { role: docker, tags: [ "docker" ] } # docker install
     - { role: ufw, tags: [ "ufw" ] } # firewall install
-### Tools ###
-    - { role: dry, tags: [ "dry" ] } # docker cli management tool
-    - { role: portainer, tags: [ "portainer" ] } docker web management tool
-
 #    - { role: nginx-proxy, tags: [ "nginx-proxy" ] } # The frontend to all websites.
+
+### Optional Tools ###
+    - { role: dry, tags: [ "dry" ] } # docker cli management tool
+    - { role: portainer, tags: [ "portainer" ] } # docker web management tool
+

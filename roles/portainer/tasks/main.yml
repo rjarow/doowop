@@ -1,4 +1,5 @@
 ### https://github.com/portainer/portainer
+
 - name: Create Portainer Config Directory
   file:
     path: /opt/docker/portainer
@@ -13,7 +14,7 @@
     state: started
     restart_policy: always
     volumes:
-      - /opt/docker/portainer:/data"
+      - /opt/docker/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "{{ portainer_port }}:9000"

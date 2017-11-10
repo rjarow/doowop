@@ -3,11 +3,28 @@
 # Let's go!
 
 cd ~
-if [ ! -f /usr/bin/git ]
+if [ ! -f /usr/bin/git ];
 then
     sudo apt-get install git -y
 fi
 
-git clone -b dev https://github.com/rjarow/doowop.git ~/.doowop
-cd ~/.doowop
-chmod +x bootstrap_local.sh && bootstrap_local.sh
+if [ ! -f /usr/bin/ansible ];
+then
+    sudo apt install software-properties-common && /
+    sudo add-apt-repository ppa:ansible/ansible && /
+    sudo apt-get update && /
+    sudo apt install ansible
+
+fi
+
+if [ ! -d ~/.doowop ];
+then
+    git clone -b dev https://github.com/rjarow/doowop.git ~/.doowop
+    cd ~/.doowop
+    chmod +x bootstrap_local
+    sudo ansible-playbook ~/.doowop/bootstrap_local.yml
+else
+    cd ~/.doowop
+    chmod +x bootstrap_local
+    sudo ansible-playbook ~/.doowop/bootstrap_local.yml
+fi
