@@ -57,5 +57,6 @@
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
+    user: "{{ docker_user_id.stdout }}"  
     networks:
       - name: "{{ docker_network_name }}"
