@@ -1,0 +1,32 @@
+### https://github.com/jwilder/nginx-proxy
+### https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion
+- name: Create nginx-proxy config directory
+  file:
+    path: "{{ configdir }}/nginx-proxy"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0775
+    state: directory
+    recurse: yes
+
+
+- name: Create nginx-proxy
+  docker_container:
+    name: nginx-proxy
+    image: jwilder/nginx-proxy
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ configdir }}/certs: /etc/nginx/certs:ro"
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 80:80
+      - 443:443
+    log_driver: syslog
+    log_opt:
+      tag: nginx
+    user: "{{ docker_user }}"
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy

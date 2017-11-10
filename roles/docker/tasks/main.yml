@@ -13,9 +13,13 @@
   # - name: DEBUG Print docker user
   #   debug: msg="{{ docker_user }}"
 
-  - name: Add Admin user to docker group
+  - name: Add admin user to docker group
     user:
       name: "{{ docker_user }}"
       groups: docker
       append: yes
     when: docker_user is defined
+  
+  - name: Create the default docker network for doowop
+    docker_network: 
+      name: "{{ docker_network_name }}"
