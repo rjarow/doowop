@@ -9,6 +9,15 @@
     state: directory
     recurse: yes
 
+- name: Create nginx-proxy config directory
+  file:
+    path: "{{ configdir }}//certs"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0775
+    state: directory
+    recurse: yes
+
 
 - name: Create nginx-proxy
   docker_container:

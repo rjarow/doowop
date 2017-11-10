@@ -22,9 +22,9 @@ then
     git clone -b dev https://github.com/rjarow/doowop.git ~/.doowop
     cd ~/.doowop
     chmod +x bootstrap_local.yml
-    sudo ansible-playbook ~/.doowop/bootstrap_local.yml
-else
-    cd ~/.doowop
-    chmod +x bootstrap_local.yml
-    sudo ansible-playbook ~/.doowop/bootstrap_local.yml
+    sudo ansible-playbook bootstrap_local.yml
 fi
+
+cd ~/.doowop
+chmod +x bootstrap_local.yml
+sudo ansible-playbook bootstrap_local.yml
