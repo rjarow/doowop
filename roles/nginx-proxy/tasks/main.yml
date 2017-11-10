@@ -18,6 +18,10 @@
     state: directory
     recurse: yes
 
+- name: Get UID of {{ docker_user }}
+  shell: id -u "{{ docker_user }}"
+  register: docker_user_id 
+
 
 - name: Create nginx-proxy
   docker_container:
@@ -26,7 +30,7 @@
     state: started
     restart_policy: unless-stopped
     volumes:
-      - "{{ configdir }}/certs: /etc/nginx/certs:ro"
+      - "{{ configdir }}/certs:/etc/nginx/certs:ro"
       - /etc/nginx/vhost.d
       - /usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
@@ -36,7 +40,7 @@
     log_driver: syslog
     log_opt:
       tag: nginx
-    user: "{{ docker_user }}"
+    user: "{{ docker_user_id }}"
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy:""
 
