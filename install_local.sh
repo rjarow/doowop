@@ -22,8 +22,8 @@ then
     cd ~/.doowop
     chmod +x bootstrap_local.yml
     sudo ansible-playbook bootstrap_local.yml
+else
+    cd ~/.doowop
+    chmod +x bootstrap_local.yml
+    sudo ansible-playbook bootstrap_local.yml
 fi
-
-cd ~/.doowop
-chmod +x bootstrap_local.yml
-sudo ansible-playbook bootstrap_local.yml
