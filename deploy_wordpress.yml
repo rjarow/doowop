@@ -86,6 +86,8 @@
         networks:
           - name: "{{ docker_network_name }}"
         env:
+          PUID: "{{ docker_user_id.stdout }}"
+          PGID: "{{ docker_user_id.stdout }}"
           WORDPRESS_DB_HOST: "{{ domain }}_db"
           WORDPRESS_DB: "{{ mysql_db }}"
           WORDPRESS_DB_USER: "{{ mysql_user }}"
