@@ -14,7 +14,6 @@ then
     sudo add-apt-repository ppa:ansible/ansible
     sudo apt-get update
     sudo apt install ansible
-
 fi
 
 if [ ! -d ~/.doowop ];

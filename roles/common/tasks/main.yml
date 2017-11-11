@@ -38,4 +38,10 @@
     - passlib
     - docker-compose
 
+  - name: Add non-root user
+    user:
+      name: "{{ docker_user }}"
+      createhome: no
+    when: docker_user is defined
+
 
