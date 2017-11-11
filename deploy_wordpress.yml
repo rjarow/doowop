@@ -31,13 +31,25 @@
 
     - name: Create website folder structure
       file:
-        path: "{{ sitedir }}/{{ domain }}
+        path: "{{ sitedir }}/{{ domain }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes
+    
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}/{{ item }}"
         owner: "{{ docker_user }}"
         group: "{{ docker_user }}"
         mode: 0775
         state: directory
         recurse: yes  
-    
+      with_items:
+        - db
+        - web
+        
     - name: Create DB for {{ domain }}
       docker_container:
         name: "{{ domain }}_db"

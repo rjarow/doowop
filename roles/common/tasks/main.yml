@@ -53,7 +53,7 @@
       state: directory
       recurse: yes
   
-  - name: Create config directory
+  - name: Create site directory
     file:
       path: "{{ sitedir }}"
       owner: "{{ docker_user }}"
