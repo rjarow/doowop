@@ -44,4 +44,12 @@
       createhome: no
     when: docker_user is defined
 
+  - name: Create config directory
+  file:
+    path: "{{ configdir }}
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0775
+    state: directory
+    recurse: yes
 
