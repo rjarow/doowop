@@ -13,6 +13,9 @@
       prompt: What is the TLD You would like to setup? (ie mydomain.com) 
       private: no
 
+    - name: email
+      prompt: What is the email to send letsencrypt (ssl) emails for this domain?
+      private: no
 
 
   tasks:
@@ -57,7 +60,7 @@
         state: started
         restart_policy: unless-stopped
         volumes:
-          - "{{ sitedir }}/{{ domain }}/db":/var/lib/mysql
+          - "{{ sitedir }}/{{ domain }}/db:/var/lib/mysql"
         user: "{{ docker_user_id.stdout }}"
         published_ports:
           - 3306
@@ -68,3 +71,25 @@
           MYSQL_DATABASE: "{{ mysql_db }}"
           MYSQL_USER: "{{ mysql_user }}"
           MYSQL_PASSWORD: "{{ mysql_user_pass.stdout }}"
+
+    - name: Create Wordpress for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_wp"
+        image: rjarow/danwp
+        state: started
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ sitedir }}/{{ domain }}/web:/usr/html"
+        user: "{{ docker_user_id.stdout }}"
+        published_ports:
+          - 80
+        networks:
+          - name: "{{ docker_network_name }}"
+        env:
+          WORDPRESS_DB_HOST: "{{ domain }}_db"
+          WORDPRESS_DB: "{{ mysql_db }}"
+          WORDPRESS_DB_USER: "{{ mysql_user }}"
+          WORDPRESS_DB_PASSWORD: "{{ mysql_user_pass.stdout }}"
+          VIRTUAL_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_EMAIL: "{{ email }}"
