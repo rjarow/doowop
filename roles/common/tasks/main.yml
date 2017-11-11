@@ -52,4 +52,13 @@
       mode: 0775
       state: directory
       recurse: yes
+  
+  - name: Create config directory
+    file:
+      path: "{{ sitedir }}"
+      owner: "{{ docker_user }}"
+      group: "{{ docker_user }}"
+      mode: 0775
+      state: directory
+      recurse: yes
 

@@ -1,0 +1,58 @@
+---
+
+- hosts: 127.0.0.1
+  become: yes
+  connection: local
+  
+  vars:
+    mysql_user: wordpress
+    mysql_db: wordpress 
+
+  vars_prompt:
+    - name: domain
+      prompt: What is the TLD You would like to setup? (ie mydomain.com) 
+      private: no
+
+
+
+  tasks:
+
+    - name: Generate some passwords
+      shell:  openssl rand -base64 12
+      register: mysql_root_pass
+    
+    - name: Generate more passwords
+      shell:  openssl rand -base64 12
+      register: mysql_user_pass
+
+    - name: Get UID of {{ docker_user }}
+      shell: id -u "{{ docker_user }}"
+      register: docker_user_id   
+
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes  
+    
+    - name: Create DB for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_db"
+        image: mariadb
+        state: started
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ sitedir }}/{{ domain }}/db"
+        user: "{{ docker_user_id.stdout }}"
+        published_ports:
+          - 3306
+        networks:
+          - name: "{{ docker_network_name }}"
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_pass }}"
+          MYSQL_DATABASE: "{{ mysql_db }}"
+          MYSQL_USER: "{{ mysql_user }}"
+          MYSQL_PASSWORD: "{{ mysql_user_pass }}"
