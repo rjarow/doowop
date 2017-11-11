@@ -80,7 +80,6 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/web:/usr/html"
-        user: "{{ docker_user_id.stdout }}"
         published_ports:
           - 80
         networks:
