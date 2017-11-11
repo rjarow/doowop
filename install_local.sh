@@ -24,6 +24,7 @@ then
     sudo ansible-playbook bootstrap_local.yml
 else
     cd ~/.doowop
+    git pull
     chmod +x bootstrap_local.yml
     sudo ansible-playbook bootstrap_local.yml
 fi

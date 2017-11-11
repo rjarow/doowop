@@ -46,7 +46,7 @@
 
   - name: Create config directory
     file:
-      path: "{{ configdir }}
+      path: "{{ configdir }}"
       owner: "{{ docker_user }}"
       group: "{{ docker_user }}"
       mode: 0775
