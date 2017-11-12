@@ -79,11 +79,12 @@
         state: started
         restart_policy: unless-stopped
         volumes:
-          - "{{ sitedir }}/{{ domain }}/web:/usr/html"
+          - "{{ sitedir }}/{{ domain }}/web:/var/www/html"
         published_ports:
           - 80
         networks:
           - name: "{{ docker_network_name }}"
+        user: "{{ docker_user_id.stdout }}"
         env:
           PUID: "{{ docker_user_id.stdout }}"
           PGID: "{{ docker_user_id.stdout }}"
