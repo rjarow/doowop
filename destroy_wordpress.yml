@@ -10,13 +10,14 @@
       private: no
     
     - name: confirm
-      prompt: Are you sure you want to do this? Type yes to continue deleting everything for {{ domain }}
+      prompt: Are you sure you want to do this? Type yes to continue deleting everything for "{{ domain }}"
       private: no
   tasks:
 
     - name: WARNING
       debug:
         msg: THIS IS A DESTRUCTIVE PROCESS. YOU WILL BE DELETING ALL RUNNING COPIES AND DATA FOR {{ domain }}
+      when: confirm == "yes"
 
     - name: DESTROY DB for {{ domain }}
       docker_container:
@@ -36,5 +37,4 @@
       file:
         path: "{{ sitedir }}/{{ domain }}/"
         state: absent
-        recurse: yes  
       when: confirm == "yes"      
