@@ -23,6 +23,14 @@
     state: directory
     recurse: yes
 
+- name: Pull nginx-proxy image
+  docker_image:
+    name: jwilder/nginx-proxy
+
+- name: Pull nginx-proxy image
+  docker_image:
+    name: jrcs/letsencrypt-nginx-proxy-companion    
+
 - name: Create nginx-proxy
   docker_container:
     name: nginx-proxy
