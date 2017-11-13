@@ -44,7 +44,3 @@
         path: "{{ sitedir }}/{{ domain }}/"
         state: absent
       when: confirm == "yes" or confirm == "YES"
-    
-    - debug:
-        msg: This is to confirm NOTHING was deleted because you did NOT type yes above.
-      when: confirm != "yes" or confirm != "YES"
