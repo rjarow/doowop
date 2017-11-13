@@ -1,0 +1,40 @@
+---
+
+- hosts: 127.0.0.1
+  become: yes
+  connection: local
+  
+  vars_prompt:
+    - name: domain
+      prompt: What is the TLD You would like to DESTROY (this should match the domain running.)
+      private: no
+    
+    - name: confirm
+      prompt: Are you sure you want to do this? Type yes to continue deleting everything for {{ domain }}
+      private: no
+  tasks:
+
+    - name: WARNING
+      debug:
+        msg: THIS IS A DESTRUCTIVE PROCESS. YOU WILL BE DELETING ALL RUNNING COPIES AND DATA FOR {{ domain }}
+
+    - name: DESTROY DB for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_db"
+        state: absent
+        force_kill: yes
+      when: confirm == "yes"
+
+    - name: DESTROY Wordpress for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_wp"
+        state: absent
+        force_kill: yes
+      when: confirm == "yes"  
+
+    - name: DESTROY WEBSITE FOLDERS
+      file:
+        path: "{{ sitedir }}/{{ domain }}/"
+        state: absent
+        recurse: yes  
+      when: confirm == "yes"      
