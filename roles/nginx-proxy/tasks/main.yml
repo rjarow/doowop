@@ -34,7 +34,7 @@
       - /etc/nginx/vhost.d
       - /usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    user: "{{ docker_user }}"
+    user: "{{ docker_user.stdout }}"
     published_ports:
       - 80:80
       - 443:443
