@@ -26,10 +26,12 @@
 - name: Pull nginx-proxy image
   docker_image:
     name: jwilder/nginx-proxy
+    state: present
 
 - name: Pull nginx-proxy image
   docker_image:
-    name: jrcs/letsencrypt-nginx-proxy-companion    
+    name: jrcs/letsencrypt-nginx-proxy-companion
+    state: presents  
 
 - name: Create nginx-proxy
   docker_container:
