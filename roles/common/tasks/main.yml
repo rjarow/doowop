@@ -34,8 +34,9 @@
       name: "{{ item }}"
     with_items:
     - setuptools
-    - docker-py
     - passlib
+    - docker
+    - docker-py
     - docker-compose
 
   - name: Add non-root user
