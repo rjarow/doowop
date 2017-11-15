@@ -18,12 +18,12 @@ sudo apt install ansible -y
 if [ ! -d ${INSTALLDIR} ];
 then
     sudo git clone -b dev https://github.com/rjarow/doowop.git $INSTALLDIR
-    sudo cd ${INSTALLDIR}
-    sudo chmod +x bootstrap_local.yml
+    cd ${INSTALLDIR}
+    sudo chmod +x ${INSTALLDIR}/bootstrap_local.yml
     sudo ansible-playbook ${INSTALLDIR}/bootstrap_local.yml
 else
-    sudo cd ${INSTALLDIR}
+    cd ${INSTALLDIR}
     sudo git pull
-    sudo chmod +x bootstrap_local.yml
+    sudo chmod +x ${INSTALLDIR}/bootstrap_local.yml
     sudo ansible-playbook ${INSTALLDIR}/bootstrap_local.yml
 fi
