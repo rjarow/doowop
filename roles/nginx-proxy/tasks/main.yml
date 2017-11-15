@@ -52,6 +52,7 @@
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy="true"
     networks:
       - name: "{{ docker_network_name }}"
+    purge_networks: yes  
 
 - name: Create LetsEncrypt companion for nginx-proxy
   docker_container:
@@ -67,3 +68,6 @@
       - nginx-proxy
     networks:
       - name: "{{ docker_network_name }}"
+    purge_networks: yes
+    env:
+      ACME_TOS_HASH: cc88d8d9517f490191401e7b54e9ffd12a2b9082ec7a1d4cec6101f9f1647e7b

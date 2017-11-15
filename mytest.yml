@@ -1,27 +1,96 @@
+#!/usr/bin/env ansible-playbook
 ---
 
-- hosts: localhost
-  gather_facts: False
+- hosts: 127.0.0.1
+  become: yes
+  connection: local
+  
+  vars:
+    mysql_user: wordpress
+    mysql_db: wordpress 
 
   vars_prompt:
-  - name: target_host
-    prompt: Please Enter the Target Host IP
-    private: no
+    - name: domain
+      prompt: What is the TLD You would like to setup? (ie mydomain.com) 
+      private: no
 
-  pre_tasks:
-    - name: Add Host to Group
-      add_host:
-        name: "{{ target_host }}"
-        group: target_group
+    - name: email
+      prompt: What is the email to send letsencrypt (ssl) emails for this domain?
+      private: no
 
-# After host is added, setup.
-- hosts: target_group
-  gather_facts: yes
-  remote_user: user
-  become: yes
 
-  roles:
-###  Main Roles ###
-    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt 
-    - { role: docker, tags: [ "docker" ] } # docker install 
-    - { role: ufw, tags: [ "ufw" ] } # firewall install
+  tasks:
+
+    - name: Generate some passwords
+      shell:  openssl rand -base64 12
+      register: mysql_root_pass
+    
+    - name: Generate more passwords
+      shell:  openssl rand -base64 12
+      register: mysql_user_pass
+
+    - name: Get UID of {{ docker_user }}
+      shell: id -u "{{ docker_user }}"
+      register: docker_user_id   
+
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes
+    
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}/{{ item }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes  
+      with_items:
+        - db
+        - web
+
+    - name: Create DB for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_db"
+        image: rjarow/alpine-mariadb
+        state: started
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ sitedir }}/{{ domain }}/db:/var/lib/mysql"
+        purge_networks: yes  
+        networks:
+          - name: "{{ docker_network_name }}"
+        env:
+          PUID: "{{ docker_user_id.stdout }}"
+          PGID: "{{ docker_user_id.stdout }}"
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_pass.stdout }}"
+          MYSQL_DATABASE: "{{ mysql_db }}"
+          MYSQL_USER: "{{ mysql_user }}"
+          MYSQL_PASSWORD: "{{ mysql_user_pass.stdout }}"
+
+    - name: Create Wordpress for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_wp"
+        image: rjarow/danwp
+        state: started
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ sitedir }}/{{ domain }}/web:/usr/html"
+        purge_networks: yes
+        networks:
+          - name: "{{ docker_network_name }}"
+        env:
+          PUID: "{{ docker_user_id.stdout }}"
+          PGID: "{{ docker_user_id.stdout }}"
+          WORDPRESS_DB_HOST: "{{ domain }}_db"
+          WORDPRESS_DB: "{{ mysql_db }}"
+          WORDPRESS_DB_USER: "{{ mysql_user }}"
+          WORDPRESS_DB_PASSWORD: "{{ mysql_user_pass.stdout }}"
+          VIRTUAL_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_EMAIL: "{{ email }}"

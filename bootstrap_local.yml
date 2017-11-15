@@ -22,5 +22,5 @@
 
 ### Optional Tools ###
     - { role: dry, tags: [ "dry" ] } # docker cli management tool
-    - { role: portainer, tags: [ "portainer" ] } # docker web management tool (suggested if you have the extra memory)
     - { role: borgbackup, tags: [ "borgbackup" ]} # install borg backup utility
+#    - { role: portainer, tags: [ "portainer" ] } # docker web management tool (suggested only if you have the extra memory to spare)
