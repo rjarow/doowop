@@ -45,3 +45,9 @@
         path: "{{ sitedir }}/{{ domain }}/"
         state: absent
       when: confirm == "yes" or confirm == "YES"
+
+    - name: DESTROY CERT FOLDERS
+      file:
+        path: "{{ configdir }}/certs/{{ domain }}/"
+        state: absent
+      when: confirm == "yes" or confirm == "YES"
