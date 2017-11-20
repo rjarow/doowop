@@ -36,7 +36,6 @@
     - setuptools
     - passlib
     - docker
-    - docker-py
     - docker-compose
 
   - name: Add non-root user
