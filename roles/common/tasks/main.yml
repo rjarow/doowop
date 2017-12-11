@@ -62,3 +62,14 @@
       state: directory
       recurse: yes
 
+  - name: Symlink stuff for easy use.
+    file:
+      src: "{{ item.source }}"
+      dest: "{{ item.destination }}"
+      state: link
+    with_items:
+      - { source: "{{ installdir }}/wordpress_deploy.yml", destination: /usr/sbin/wpdeploy }
+      - { source: "{{ installdir }}/wordpress_destroy.yml", destination: /usr/sbin/wpdestroy }
+      - { source: "{{ installdir }}/wordpress_start.yml", destination: /usr/sbin/wpstart }
+      - { source: "{{ installdir }}/wordpress_stop.yml", destination: /usr/sbin/wpstop }
+

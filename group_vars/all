@@ -24,3 +24,4 @@ portainer_port: 9000
 
 configdir: /config
 sitedir: /sites
+installdir: /opt/doowop
