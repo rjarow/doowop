@@ -1,27 +1,30 @@
 ###############################################################################
-### Edit ###
+### Edit variables ###
 
 ### Set your timezone ### 
 timezone: America/New_York
 
+### folders ###
+
+### configdir is where the docker configs live ### 
+configdir: /config
+
+### sitedir is where your website data lives. This is stuff you'll want to backup! ### 
+### each website will have it's own subdirectory under sitedir
+sitedir: /sites
+
+### installdir is where the doowop playbooks live ###
+installdir: /opt/doowop
+
 ### SSH Port, only change this if you've changed your ssh port ###
 ssh_port: 22
 
-### docker user, leave this unset if you intend to run things as root. (not recommended) ###
-### every provider seems to do this differently, some give you user, and others give you root, and AWS sometimes gives you ec2-user ###
-
+### docker user, this user will be created and used to run the docker containers as.
 docker_user: runuser
 
-### docker network the proxy and containers will live on.
+### docker network the proxy and doowop containers will live on.
 docker_network_name: doowop
 
 ### portainer port ### - When Portainer is installed it'll be accessible via this port
 ### Portainer is a web frontend for docker, handy for managing Docker Containers ###
-
 portainer_port: 9000
-
-### folders
-
-configdir: /config
-sitedir: /sites
-installdir: /opt/doowop
