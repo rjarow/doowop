@@ -4,7 +4,7 @@
 ### Set your timezone ### 
 timezone: America/New_York
 
-### folders ###
+### Directories ###
 
 ### configdir is where the docker configs live ### 
 configdir: /config
@@ -13,14 +13,11 @@ configdir: /config
 ### each website will have it's own subdirectory under sitedir
 sitedir: /sites
 
-### installdir is where the doowop playbooks live ###
-installdir: /opt/doowop
-
-### SSH Port, only change this if you've changed your ssh port ###
+### SSH Port, This is for firewall config, only change this if you've changed your ssh port ###
 ssh_port: 22
 
 ### docker user, this user will be created and used to run the docker containers as.
-docker_user: runuser
+docker_user: rj
 
 ### docker network the proxy and doowop containers will live on.
 docker_network_name: doowop
@@ -28,3 +25,10 @@ docker_network_name: doowop
 ### portainer port ### - When Portainer is installed it'll be accessible via this port
 ### Portainer is a web frontend for docker, handy for managing Docker Containers ###
 portainer_port: 9000
+
+### Docker Images
+
+### Defaults to mine, which are configured to be used in the main deploy scripts.
+### Change with care.
+dockerwp: rjarow/danwp
+dockerdb: rjarow/alpine-mariadb
