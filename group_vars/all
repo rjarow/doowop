@@ -30,5 +30,5 @@ portainer_port: 9000
 
 ### Defaults to mine, which are configured to be used in the main deploy scripts.
 ### Change with care.
-dockerwp: rjarow/danwp
-dockerdb: rjarow/alpine-mariadb
+dockerwp: containah/danwp
+dockerdb: containah/alpine-mariadb
