@@ -1,3 +1,3 @@
 # Let's go!
 
-ansible-playbook -k bootstrap_remote.yml
+ansible-playbook -k bootstrap.yml

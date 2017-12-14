@@ -1,6 +1,6 @@
 ---
 
-- hosts: 127.0.0.1
+- hosts: doowop
   become: yes
   connection: local
   
@@ -61,9 +61,7 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/db:/var/lib/mysql"
-        user: "{{ docker_user_id.stdout }}"
-        published_ports:
-          - 3306
+        purge_networks: yes
         networks:
           - name: "{{ docker_network_name }}"
         env:
@@ -80,11 +78,9 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/web:/var/www/html"
-        published_ports:
-          - 80
+        purge_networks: yes
         networks:
           - name: "{{ docker_network_name }}"
-        user: "{{ docker_user_id.stdout }}"
         env:
           WORDPRESS_DB_HOST: "{{ domain }}_db"
           WORDPRESS_DB_NAME: "{{ mysql_db }}"

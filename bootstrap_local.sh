@@ -19,11 +19,11 @@ if [ ! -d ${INSTALLDIR} ];
 then
     sudo git clone -b dev https://github.com/rjarow/doowop.git $INSTALLDIR
     cd ${INSTALLDIR}
-    sudo chmod +x ${INSTALLDIR}/bootstrap_local.yml
-    sudo ansible-playbook ${INSTALLDIR}/bootstrap_local.yml
+    sudo chmod +x ${INSTALLDIR}/bootstrap.yml
+    sudo ansible-playbook ${INSTALLDIR}/bootstrap.yml
 else
     cd ${INSTALLDIR}
     sudo git pull
-    sudo chmod +x ${INSTALLDIR}/bootstrap_local.yml
-    sudo ansible-playbook ${INSTALLDIR}/bootstrap_local.yml
+    sudo chmod +x ${INSTALLDIR}/bootstrap.yml
+    sudo ansible-playbook ${INSTALLDIR}/bootstrap.yml
 fi
