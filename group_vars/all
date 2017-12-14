@@ -24,7 +24,7 @@ sitedir: /sites
 ssh_port: 22
 
 ### docker user, this user will be created and used to run the docker containers as.
-docker_user: rj
+docker_user: runuser
 
 ### docker network the proxy and doowop containers will live on.
 docker_network_name: doowop

@@ -61,8 +61,6 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/db:/var/lib/mysql"
-# used for mariadb official contaienr
-#        user: "{{ docker_user_id.stdout }}"
         purge_networks: yes  
         networks:
           - name: "{{ docker_network_name }}"
@@ -95,3 +93,28 @@
           VIRTUAL_HOST: "{{ domain }}, www.{{ domain }}"
           LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
           LETSENCRYPT_EMAIL: "{{ email }}"
+        
+    - name: Exporting variables to text file
+      shell: |
+        echo '============================================
+        MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}
+        MYSQL USER: {{ mysql_user }}
+        MYSQL PASSWORD: {{ mysql_user_pass.stdout }}
+        MYSQL DATABASE: {{ mysql_db }}
+        ============================================
+          ' >> {{ configdir }}/{{ domain }}.txt
+
+    - name: Permissions
+      file: 
+        path: "{{ configdir }}/{{ domain }}.txt"
+        owner: root
+        group: root
+        mode: 0600
+
+    - name: Variable Information
+      debug:
+        msg: "{{ domain }}_db -- MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}  MYSQL_USER: {{ mysql_user }}  MYSQL_PASSWORD: {{ mysql_user_pass.stdout }} -- Writing to >> {{ configdir }}/{{ domain }}.txt"
+    
+    - name: Finished!
+      debug:
+        msg: "Please visit https://{{ domain }} and finish your wordpress setup!"

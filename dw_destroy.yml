@@ -17,36 +17,30 @@
     - name: WARNING
       debug:
         msg: THIS IS A DESTRUCTIVE PROCESS. YOU WILL BE DELETING ALL RUNNING COPIES AND DATA FOR {{ domain }}
-      when: confirm == "yes" or confirm == "YES"
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
 
     - name: DESTROY DB for {{ domain }}
       docker_container:
         name: "{{ domain }}_db"
         state: absent
         force_kill: yes
-      when: confirm == "yes" or confirm == "YES"
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
 
     - name: DESTROY Wordpress for {{ domain }}
       docker_container:
         name: "{{ domain }}_wp"
         state: absent
         force_kill: yes
-      when: confirm == "yes" or confirm == "YES"
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
 
     - name: DESTROY WEBSITE FOLDERS
       file:
         path: "{{ sitedir }}/{{ domain }}/"
         state: absent
-      when: confirm == "yes" or confirm == "YES"
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
     
-    - name: DESTROY WEBSITE FOLDERS
-      file:
-        path: "{{ sitedir }}/{{ domain }}/"
-        state: absent
-      when: confirm == "yes" or confirm == "YES"
-
     - name: DESTROY CERT FOLDERS
       file:
         path: "{{ configdir }}/certs/{{ domain }}/"
         state: absent
-      when: confirm == "yes" or confirm == "YES"
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
