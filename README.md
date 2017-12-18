@@ -48,7 +48,7 @@ All playbooks can be run locally or on a remote host.
 * Generates passwords for the root mysql, and the wp database.
 * Takes all user input and variables and deploys Wordpress and DB.
 
-## Steps taken by the dw_deploy playbook
+## Steps taken by the dw_destroy playbook
 
 * Destroys all containers.
 * Destroys all data mountpoints.
