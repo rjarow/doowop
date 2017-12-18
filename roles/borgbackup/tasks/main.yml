@@ -4,6 +4,6 @@
       state: present
 
   - name: Ensure borgbackup and dependencies are installed
-    apt: 
-      name: borgbackup 
+    apt:
+      name: borgbackup
       update_cache: yes

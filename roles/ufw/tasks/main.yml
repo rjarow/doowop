@@ -1,5 +1,5 @@
   - name: Install UFW Firewall
-    apt: 
+    apt:
       name: ufw
       state: present
       update_cache: yes
@@ -10,23 +10,23 @@
       direction: "{{ item.direction }}"
       policy: "{{ item.policy }}"
     with_items:
-      - { direction: 'incoming', policy: 'deny' }  
+      - { direction: 'incoming', policy: 'deny' }
       - { direction: 'outgoing', policy: 'allow' }
-  
+
   - name: Limit ssh incoming port
     ufw:
       rule: limit
       port: "{{ ssh_port }}"
       proto: tcp
 
-  - name: Allow web ports 
+  - name: Allow web ports
     ufw:
       rule: allow
       port: "{{ item }}"
       proto: tcp
     with_items:
       - 80
-      - 443 
+      - 443
 
   - name: Enable UFW logging
     ufw:

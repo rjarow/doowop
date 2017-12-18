@@ -39,7 +39,9 @@ portainer_port: 9000
 
 ### Defaults to mine, which are configured to be used in the main deploy scripts.
 ### Change with care. 
+
 # Wordpress Docker Image
 dockerwp: containah/danwp
+
 # DB Docker Image
 dockerdb: containah/alpine-mariadb

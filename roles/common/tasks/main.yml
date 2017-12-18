@@ -29,7 +29,7 @@
       name: pip
       extra_args: --upgrade
 
-  - name: Install Pip tools 
+  - name: Install Pip tools
     pip:
       name: "{{ item }}"
     with_items:
@@ -52,7 +52,7 @@
       mode: 0775
       state: directory
       recurse: yes
-  
+
   - name: Create site directory
     file:
       path: "{{ sitedir }}"

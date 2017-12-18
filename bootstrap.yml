@@ -14,7 +14,7 @@
 
   roles:
 ###  Main Roles ###
-    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt 
+    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt
     - { role: docker, tags: [ "docker" ] } # docker install
     - { role: ufw, tags: [ "ufw" ] } # firewall install
     - { role: nginx-proxy, tags: [ "nginx-proxy" ] } # The frontend to all websites.

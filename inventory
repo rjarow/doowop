@@ -1,9 +1,9 @@
 [doowop]
 
 ### Default is to run doowop scripts locally. Adjust as necessary.
-127.0.0.1          ansible_connection=local
+#127.0.0.1          ansible_connection=local
 
 
-### uncomment this and change IP if using doowop on remote host. Make sure above is commented as well.
-### change the ansible_user and connection type as necessary.
-#192.168.0.100   ansible_connection=ssh        ansible_user=root
+### Uncomment this and change IP if using doowop on remote host. Make sure above is commented as well.
+### Change the ansible_user and connection type as necessary.
+10.184.11.232   ansible_connection=ssh        ansible_user=root

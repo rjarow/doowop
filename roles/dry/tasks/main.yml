@@ -8,7 +8,7 @@
 
 - name: Install Dry
   shell: /root/dryup.sh
-  args: 
+  args:
     chdir: /root
     creates: /usr/local/bin/dry
     executable: /bin/bash
