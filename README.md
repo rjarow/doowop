@@ -91,7 +91,7 @@ If you are running this script directly on the server I have written a small bas
 ```
 curl ...
 ```
-This script can be run on a clean ubuntu 16.04 server. It downloads git, installs ansible and puts the doowop scripts in /opt/doowop. Feel free to modify for your own use. It uses the sane defaults, but I do not suggest using this method. 
+This script can be run on a clean ubuntu 16.04 server. It downloads git, installs ansible and puts the doowop scripts in /opt/doowop, then kicks off the bootstrap playbook. Feel free to modify for your own use. It uses sane defaults, but I do not suggest using this method other than for testing. 
 
 ## Regular Bootstrap
 
@@ -116,7 +116,7 @@ Then run as root
 ```
 ansible-playbook bootstrap.yml
 ```
-Obviously you may need some different switches (maybe -k ?) but this is on you to modify. The default is expected to run as root.
+Obviously you may need some different switches (maybe -k ?) but this is on you to modify. The default is expected to run as root. I have used become: yes in the playbooks so you can execute this as a sudo user.
 
 Go grab a coffee, this will take a few mins!
 
@@ -221,7 +221,14 @@ the dw_stop.yml and dw_start.yml simply ask for the domain of the website you wa
 
 ## Built With
 
-blah blah fill in later
+[VSCode](https://code.visualstudio.com/) - Editor of choice these days.
+[Docker](https://docker.com) - Who loves containers? We love containers!
+[Ansible](https://ansible.com) - Push Automation <3
+[nginx-proxy](https://github.com/jwilder/nginx-proxy) - the frontend to the wordpress websites
+[letsencrypt-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) - Makes SSL easy!
+[Wordpress](https://wordpress.org) - The blogging platform
+[MariaDB](https://mariadb.org/) - Database software
+[Ubuntu](https://www.ubuntu.com/) - Host OS
 
 
 ## Authors
@@ -232,8 +239,9 @@ blah blah fill in later
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## RoadMap
 
-* jwilder
-* jrc
-* etc
+* Add support for debian/centos ?
+* Add drupal support ?
+* Add static website support ?
+* Let me know if you have any other suggestions!
