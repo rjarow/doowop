@@ -1,14 +1,22 @@
 # Doowop
 
+### Mission Statement
+
+Doowop is a set of ansible scripts for deploying Wordpress websites using Docker on Ubuntu Server (16.04 for now)
+
+The idea behind this was to make a reasonably secure deployment for multiple wordpress sites on a single host. After trying other solutions like easyengine, and centminmod I decided to make my own.
+
+I built my own Docker Containers for each as available ones were too heavy, or didnt have the options I wanted within them.
+
+The end goal is to let users get a cheap VPS and manage multiple wordpress installations with quickness and ease.
+
 ### Prerequisites
 
 * Ubuntu 16.04 Server, whether VM or Bare Metal
 * root access
 * Basic understanding of ansible and docker
 
-
-Doowop is a set of ansible scripts for deploying Wordpress websites using Docker on Ubuntu Server (16.04 for now)
-
+### General Information
 The bootstrap playbook takes care of bootstrapping the entire server and getting ready for Wordpress deployments.
 
 The doowop playbooks are for creating, destroying, stopping and starting wordpress hosted domains.
@@ -216,6 +224,13 @@ e56f4485f5fd        jwilder/nginx-proxy                      "/app/docker-entry.
 ```
 
 the dw_stop.yml and dw_start.yml simply ask for the domain of the website you want to stop or start and does that action.
+
+All playbooks have shebangs so that you can make them executable.
+
+```
+$ chmod +x /opt/doowop/dw_deploy.yml
+$ /opt/doowop/dw_deploy.yml
+```
 
 
 
