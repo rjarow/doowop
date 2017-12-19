@@ -260,3 +260,26 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Add drupal support ?
 * Add static website support ?
 * Let me know if you have any other suggestions!
+
+
+## tl;dr
+
+* Fresh Ubuntu 16.04 server.
+```
+apt install software-properties-common git -y
+add-apt-repository ppa:ansible/ansible -y
+apt update
+apt install ansible
+mkdir /opt/doowop
+git clone https://github.com/rjarow/doowop.git /opt/doowop
+vim /opt/doowop/inventory
+vim /opt/doowop/group_vars/all
+ansible-playbook /opt/doowop/bootstrap.yml
+```
+* Point domain to IP of server
+* Wait for propagation
+```
+ansible-playbook /opt/doowop/dw_deploy.yml
+```
+
+Enjoy!
