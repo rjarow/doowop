@@ -5,7 +5,7 @@
 
 INSTALLDIR=/opt/doowop
 
-### Pre-Requisites  
+### Pre-Requisites
 sudo apt install software-properties-common git -y
 
 ### We need latest Ansible
@@ -17,7 +17,7 @@ sudo apt install ansible -y
 
 if [ ! -d ${INSTALLDIR} ];
 then
-    sudo git clone -b dev https://github.com/rjarow/doowop.git $INSTALLDIR
+    sudo git clone https://github.com/rjarow/doowop.git $INSTALLDIR
     cd ${INSTALLDIR}
     sudo chmod +x ${INSTALLDIR}/bootstrap.yml
     sudo ansible-playbook ${INSTALLDIR}/bootstrap.yml
