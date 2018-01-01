@@ -1,0 +1,9 @@
+  - name: Ensure borgbackup repository is added
+    apt_repository:
+      repo: 'ppa:costamagnagianfranco/borgbackup'
+      state: present
+
+  - name: Ensure borgbackup and dependencies are installed
+    apt:
+      name: borgbackup
+      update_cache: yes

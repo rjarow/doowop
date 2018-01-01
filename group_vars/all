@@ -1,0 +1,47 @@
+###############################################################################
+### Variables ###
+###############################################################################
+
+### The defaults below are fairly sane, but you should review and adjust as necessary.
+
+### Set your timezone ### 
+timezone: America/New_York
+
+### Directories ###
+
+### configdir is where the docker configs live (nginx-proxy and all certs will be put in this directory) ### 
+configdir: /config
+
+### sitedir is where your website data lives. This is where your modifiable data will be! ### 
+### each website will have it's own subdirectory under sitedir (ie. /sites/yourdomain.com/db & /sites/yourdomain.com/web)
+sitedir: /sites
+
+###############################################################################
+### Options ###
+###############################################################################
+
+### SSH Port, This is for firewall config, only change this if you've changed your ssh port ###
+ssh_port: 22
+
+### docker user, this user will be created and used to run the docker containers as.
+docker_user: runuser
+
+### docker network the proxy and doowop containers will live on.
+docker_network_name: doowop
+
+### portainer port ### - When Portainer is installed it'll be accessible via this port
+### Portainer is a web frontend for docker, handy for managing Docker Containers ###
+portainer_port: 9000
+
+###############################################################################
+### Docker Images
+###############################################################################
+
+### Defaults to mine, which are configured to be used in the main deploy scripts.
+### Change with care. 
+
+# Wordpress Docker Image
+dockerwp: containah/danwp
+
+# DB Docker Image
+dockerdb: containah/alpine-mariadb

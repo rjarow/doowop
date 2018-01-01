@@ -1,0 +1,25 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: doowop
+  become: yes
+  gather_facts: False
+
+### This takes care of making sure python2 is installed and if we want to run any plays locally in the future. Needed for Ubuntu 16.04 ###
+  pre_tasks:
+  - name: Check for ansible and install if missing, then gather facts
+    raw: test -e /usr/bin/ansible || (sudo apt-get install -y ansible)
+
+  - setup: # gather_facts
+
+  roles:
+###  Main Roles ###
+    - { role: common, tags: [ "common" ] } # install pre-requisites / upgrade apt
+    - { role: docker, tags: [ "docker" ] } # docker install
+    - { role: ufw, tags: [ "ufw" ] } # firewall install
+    - { role: nginx-proxy, tags: [ "nginx-proxy" ] } # The frontend to all websites.
+
+### Optional Tools ###
+    - { role: dry, tags: [ "dry" ] } # docker cli management tool
+    - { role: borgbackup, tags: [ "borgbackup" ]} # install borg backup utility
+#    - { role: portainer, tags: [ "portainer" ] } # docker web management tool (suggested only if you have the extra memory to spare)

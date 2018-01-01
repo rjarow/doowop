@@ -1,0 +1,46 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: doowop
+  become: yes
+  
+  vars_prompt:
+    - name: domain
+      prompt: What is the TLD You would like to DESTROY ( ex. mydomain.com )
+      private: no
+    
+    - name: confirm
+      prompt: Are you sure you want to do this? Type yes to continue deleting everything for this domain
+      private: no
+  tasks:
+
+    - name: WARNING
+      debug:
+        msg: THIS IS A DESTRUCTIVE PROCESS. YOU WILL BE DELETING ALL RUNNING COPIES AND DATA FOR {{ domain }}
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
+
+    - name: DESTROY DB for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_db"
+        state: absent
+        force_kill: yes
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
+
+    - name: DESTROY Wordpress for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_wp"
+        state: absent
+        force_kill: yes
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
+
+    - name: DESTROY WEBSITE FOLDERS
+      file:
+        path: "{{ sitedir }}/{{ domain }}/"
+        state: absent
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"
+    
+    - name: DESTROY CERT FOLDERS
+      file:
+        path: "{{ configdir }}/certs/{{ domain }}/"
+        state: absent
+      when: confirm == "yes" or confirm == "YES" or confirm == "y"

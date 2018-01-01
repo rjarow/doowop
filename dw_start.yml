@@ -1,0 +1,29 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: doowop
+  become: yes
+
+  
+  vars_prompt:
+    - name: domain
+      prompt: What is the TLD You would like to START ( ex. mydomain.com )
+      private: no
+    
+    - name: confirm
+      prompt: Are you sure you want to do this? Type yes to continue starting this domain
+      private: no
+  
+  tasks:
+
+    - name: START DB for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_db"
+        state: started
+      when: confirm == "yes" or confirm == "YES"
+
+    - name: START Wordpress for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_wp"
+        state: started
+      when: confirm == "yes" or confirm == "YES"

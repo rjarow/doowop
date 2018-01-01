@@ -1,0 +1,76 @@
+  - name: Make sure Ansible PPA is in place
+    apt_repository:
+      repo: 'ppa:ansible/ansible'
+      state: present
+
+  - name: Upgrade apt to the latest packages
+    apt:
+      upgrade: dist
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: Install Needed Programs and Dependencies
+    apt:
+      name: "{{ item }}"
+      state: installed
+    with_items:
+    - linux-image-extra-virtual
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - curl
+    - wget
+    - git
+    - python-pip
+    - ansible
+
+  - name: Upgrade pip
+    pip:
+      name: pip
+      extra_args: --upgrade
+
+  - name: Install Pip tools
+    pip:
+      name: "{{ item }}"
+    with_items:
+    - setuptools
+    - passlib
+    - docker
+    - docker-compose
+
+  - name: Add non-root user
+    user:
+      name: "{{ docker_user }}"
+      createhome: no
+    when: docker_user is defined
+
+  - name: Create config directory
+    file:
+      path: "{{ configdir }}"
+      owner: "{{ docker_user }}"
+      group: "{{ docker_user }}"
+      mode: 0775
+      state: directory
+      recurse: yes
+
+  - name: Create site directory
+    file:
+      path: "{{ sitedir }}"
+      owner: "{{ docker_user }}"
+      group: "{{ docker_user }}"
+      mode: 0775
+      state: directory
+      recurse: yes
+
+#  - name: Symlink stuff for easy use.
+#    file:
+#      src: "{{ item.source }}"
+#      dest: "{{ item.destination }}"
+#      state: link
+#    with_items:
+#      - { source: "{{ installdir }}/wordpress_deploy.yml", destination: /usr/sbin/wpdeploy }
+#      - { source: "{{ installdir }}/wordpress_destroy.yml", destination: /usr/sbin/wpdestroy }
+#      - { source: "{{ installdir }}/wordpress_start.yml", destination: /usr/sbin/wpstart }
+#      - { source: "{{ installdir }}/wordpress_stop.yml", destination: /usr/sbin/wpstop }
+
+

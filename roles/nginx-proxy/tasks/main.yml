@@ -1,0 +1,73 @@
+### https://github.com/jwilder/nginx-proxy
+### https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion
+
+- name: Get UID of {{ docker_user }}
+  shell: id -u "{{ docker_user }}"
+  register: docker_user_id
+
+- name: Create nginx-proxy config directory
+  file:
+    path: "{{ configdir }}/nginx-proxy"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0775
+    state: directory
+    recurse: yes
+
+- name: Create nginx-proxy config directory
+  file:
+    path: "{{ configdir }}/certs"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_user }}"
+    mode: 0775
+    state: directory
+    recurse: yes
+
+- name: Pull nginx-proxy image
+  docker_image:
+    name: jwilder/nginx-proxy
+    state: present
+
+- name: Pull nginx-proxy image
+  docker_image:
+    name: jrcs/letsencrypt-nginx-proxy-companion
+    state: present
+
+- name: Create nginx-proxy
+  docker_container:
+    name: nginx-proxy
+    image: jwilder/nginx-proxy
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ configdir }}/certs:/etc/nginx/certs:ro"
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    # user: "{{ docker_user_id.stdout }}" # nope
+    published_ports:
+      - 80:80
+      - 443:443
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy="true"
+    networks:
+      - name: "{{ docker_network_name }}"
+    purge_networks: yes
+
+- name: Create LetsEncrypt companion for nginx-proxy
+  docker_container:
+    name: nginx-companion
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    state: started
+    restart_policy: unless-stopped
+    # user: "{{ docker_user_id.stdout }}" # nope
+    volumes:
+      - "{{ configdir }}/certs:/etc/nginx/certs:rw"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+    networks:
+      - name: "{{ docker_network_name }}"
+    purge_networks: yes
+    env:
+      ACME_TOS_HASH: cc88d8d9517f490191401e7b54e9ffd12a2b9082ec7a1d4cec6101f9f1647e7b

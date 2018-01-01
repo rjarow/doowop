@@ -1,0 +1,29 @@
+  - name: Ensure Docker repository key is installed
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Ensure docker registry is available
+    apt_repository:
+      repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+      state: present
+
+  - name: Ensure docker and dependencies are installed
+    apt:
+      name: docker-ce
+      update_cache: yes
+    notify: Restart Docker
+
+  # - name: DEBUG Print docker user
+  #   debug: msg="{{ docker_user }}"
+
+  - name: Add admin user to docker group
+    user:
+      name: "{{ docker_user }}"
+      groups: docker
+      append: yes
+    when: docker_user is defined
+
+  - name: Create the default docker network for doowop
+    docker_network:
+      name: "{{ docker_network_name }}"
