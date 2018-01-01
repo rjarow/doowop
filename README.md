@@ -236,14 +236,14 @@ $ /opt/doowop/dw_deploy.yml
 
 ## Built With
 
-[VSCode](https://code.visualstudio.com/) - Editor of choice these days.
-[Docker](https://docker.com) - Who loves containers? We love containers!
-[Ansible](https://ansible.com) - Push Automation <3
-[nginx-proxy](https://github.com/jwilder/nginx-proxy) - the frontend to the wordpress websites
-[letsencrypt-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) - Makes SSL easy!
-[Wordpress](https://wordpress.org) - The blogging platform
-[MariaDB](https://mariadb.org/) - Database software
-[Ubuntu](https://www.ubuntu.com/) - Host OS
+* [VSCode](https://code.visualstudio.com/) - Editor of choice these days.
+* [Docker](https://docker.com) - Who loves containers? We love containers!
+* [Ansible](https://ansible.com) - Push Automation <3
+* [nginx-proxy](https://github.com/jwilder/nginx-proxy) - the frontend to the wordpress websites
+* [letsencrypt-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) - Makes SSL easy!
+* [Wordpress](https://wordpress.org) - The blogging platform
+* [MariaDB](https://mariadb.org/) - Database software
+* [Ubuntu](https://www.ubuntu.com/) - Host OS
 
 
 ## Authors
@@ -270,7 +270,7 @@ apt install software-properties-common git -y
 add-apt-repository ppa:ansible/ansible -y
 apt update
 apt install ansible
-mkdir /opt/doowop
+mkdir -p /opt/doowop
 git clone https://github.com/rjarow/doowop.git /opt/doowop
 vim /opt/doowop/inventory
 vim /opt/doowop/group_vars/all
