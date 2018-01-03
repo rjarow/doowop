@@ -99,7 +99,7 @@ If you are running this script directly on the server I have written a small bas
 ```
 curl ...
 ```
-This script can be run on a clean ubuntu 16.04 server. It downloads git, installs ansible and puts the doowop scripts in /opt/doowop, then kicks off the bootstrap playbook. Feel free to modify for your own use. It uses sane defaults, but I do not suggest using this method other than for testing. 
+This script can be run on a clean ubuntu 16.04 server. It downloads git, installs ansible and puts the doowop scripts in /opt/doowop, then kicks off the bootstrap playbook. Feel free to modify for your own use. It uses sane defaults, but I do not suggest using this method other than for testing.
 
 ## Regular Bootstrap
 
@@ -129,6 +129,18 @@ Obviously you may need some different switches (maybe -k ?) but this is on you t
 Go grab a coffee, this will take a few mins!
 
 Once it's done you'll have a server ready for Wordpress deployments!
+
+One last thing you'll want to do is set the password for the user you put under docker_user in the variables. You'll want to use this user going forward to manage sites, and deploy new ones. Of course this can still be done as root, but not suggested.
+
+A good simple tutorial for that can be found [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-ubuntu-quickstart) - Since the user exists you simply just need to set the password and add to sudo group
+
+```
+passwd runuser
+usermod -aG sudo runuser
+```
+Make note of this password as you'll need to run commands as root and login to the server.
+
+I also suggest setting up SSH keys for logins and disabling passwords, however that is past the scope of this documentation.
 
 ### Wordpress Deployment and management
 
@@ -195,7 +207,7 @@ The dw_destroy.yml will destroy the wordpress site and databases, this is a comp
 
 Example:
 ```
- ansible-playbook dw_destroy.yml
+ansible-playbook dw_destroy.yml
 
 What is the TLD You would like to DESTROY ( ex. mydomain.com ): test.com
 Are you sure you want to do this? Type yes to continue deleting everything for this domain: yes
@@ -275,6 +287,10 @@ git clone https://github.com/rjarow/doowop.git /opt/doowop
 vim /opt/doowop/inventory
 vim /opt/doowop/group_vars/all
 ansible-playbook /opt/doowop/bootstrap.yml
+passwd runuser
+usermod -aG sudo runuser
+sudo su - runuser
+
 ```
 * Point domain to IP of server
 * Wait for propagation
