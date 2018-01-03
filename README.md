@@ -94,10 +94,10 @@ This file is documented and should be self explanatory. I'm not pasting it here 
 
 ## Quick Test Bootstrap
 
-If you are running this script directly on the server I have written a small bash script to deploy everything in 1 command. This is meant to demonstrate and automated workflow, and used for testing.
+If you are running this script directly on the server I have written a small bash script to deploy everything in 1 command. This is meant to demonstrate an automated workflow, and should only be used for testing.
 
 ```
-curl ...
+curl -sSL https://raw.githubusercontent.com/rjarow/doowop/master/bootstrap_local.sh | bash
 ```
 This script can be run on a clean ubuntu 16.04 server. It downloads git, installs ansible and puts the doowop scripts in /opt/doowop, then kicks off the bootstrap playbook. Feel free to modify for your own use. It uses sane defaults, but I do not suggest using this method other than for testing.
 
