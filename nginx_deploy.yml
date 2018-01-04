@@ -1,0 +1,57 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: doowop
+  become: yes
+
+  vars_prompt:
+    - name: domain
+      prompt: What is the TLD You would like to setup? (ie mydomain.com)
+      private: no
+
+    - name: email
+      prompt: What is the email to send letsencrypt (ssl) emails for this domain?
+      private: no
+
+
+  tasks:
+
+    - name: Get UID of {{ docker_user }}
+      shell: id -u "{{ docker_user }}"
+      register: docker_user_id
+
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes
+
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}/{{ item }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes
+      with_items:
+        - web
+
+    - name: Create nginx for {{ domain }}
+      docker_container:
+        name: "{{ domain }}_ng"
+        image: nginx
+        state: started
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ sitedir }}/{{ domain }}/web:/usr/share/nginx/html"
+        purge_networks: yes
+        networks:
+          - name: "{{ docker_network_name }}"
+        env:
+          VIRTUAL_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_EMAIL: "{{ email }}"
