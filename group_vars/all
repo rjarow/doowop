@@ -4,15 +4,15 @@
 
 ### The defaults below are fairly sane, but you should review and adjust as necessary.
 
-### Set your timezone ### 
+### Set your timezone ###
 timezone: America/New_York
 
 ### Directories ###
 
-### configdir is where the docker configs live (nginx-proxy and all certs will be put in this directory) ### 
+### configdir is where the docker configs live (nginx-proxy and all certs will be put in this directory) ###
 configdir: /config
 
-### sitedir is where your website data lives. This is where your modifiable data will be! ### 
+### sitedir is where your website data lives. This is where your modifiable data will be! ###
 ### each website will have it's own subdirectory under sitedir (ie. /sites/yourdomain.com/db & /sites/yourdomain.com/web)
 sitedir: /sites
 
@@ -38,7 +38,10 @@ portainer_port: 9000
 ###############################################################################
 
 ### Defaults to mine, which are configured to be used in the main deploy scripts.
-### Change with care. 
+### Change with care.
+
+# Nginx-proxy Image
+dockerproxy: containah/nginx-proxy
 
 # Wordpress Docker Image
 dockerwp: containah/danwp
