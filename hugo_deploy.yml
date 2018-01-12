@@ -76,27 +76,27 @@
           LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
           LETSENCRYPT_EMAIL: "{{ email }}"
 
-    - name: Exporting variables to text file
-      shell: |
-        echo '============================================
-        MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}
-        MYSQL USER: {{ mysql_user }}
-        MYSQL PASSWORD: {{ mysql_user_pass.stdout }}
-        MYSQL DATABASE: {{ mysql_db }}
-        ============================================
-          ' >> {{ configdir }}/{{ domain }}.txt
+#    - name: Exporting variables to text file
+#      shell: |
+#       echo '============================================
+#        MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}
+#        MYSQL USER: {{ mysql_user }}
+#        MYSQL PASSWORD: {{ mysql_user_pass.stdout }}
+#        MYSQL DATABASE: {{ mysql_db }}
+#        ============================================
+#          ' >> {{ configdir }}/{{ domain }}.txt
 
-    - name: Permissions
-      file:
-        path: "{{ configdir }}/{{ domain }}.txt"
-        owner: root
-        group: root
-        mode: 0600
+#    - name: Permissions
+#      file:
+#        path: "{{ configdir }}/{{ domain }}.txt"
+#        owner: root
+#        group: root
+#        mode: 0600
 
-    - name: Variable Information
-      debug:
-        msg: "{{ domain }} setup, using git address {{ gitaddress }} - Please allow up to 1 minute to pull and build your site."
-
-    - name: Finished!
-      debug:
-        msg: "Please visit https://{{ domain }} and wait for it to be built.
+#    - name: Variable Information
+#      debug:
+#        msg: "{{ domain }} setup, using git address {{ gitaddress }} - Please allow up to 1 minute to pull and build your site."
+#
+#    - name: Finished!
+#      debug:
+#        msg: "Please visit https://{{ domain }} and wait for it to be built."
