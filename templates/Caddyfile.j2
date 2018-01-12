@@ -1,7 +1,6 @@
 {{ domain }}, www.{{ domain }} {
         root /var/www/html/
         gzip
-        tls {{ email }}
         git {
                 repo  {{ gitaddress }}
                 clone_args --recursive
