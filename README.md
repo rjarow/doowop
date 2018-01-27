@@ -124,7 +124,10 @@ Then run as root
 ```
 ansible-playbook bootstrap.yml
 ```
+
 Obviously you may need some different switches (maybe -k ?) but this is on you to modify. The default is expected to run as root. I have used become: yes in the playbooks so you can execute this as a sudo user.
+
+You may also want to move the inventory / ansible.cfg to ansibles global config (/etc/ansible) so you do not need to execute these from the /opt/doowop location. Again, your call.
 
 Go grab a coffee, this will take a few mins!
 
@@ -140,7 +143,7 @@ usermod -aG sudo runuser
 ```
 Make note of this password as you'll need to run commands as root and login to the server.
 
-I also suggest setting up SSH keys for logins and disabling passwords, however that is past the scope of this documentation.
+I also suggest setting up SSH keys for logins and disabling passwords, and completely disabling your root ssh login, however that is past the scope of this documentation.
 
 ### Wordpress Deployment and management
 
@@ -260,7 +263,7 @@ $ /opt/doowop/dw_deploy.yml
 
 ## Authors
 
-* **Rich J** - *Initial work* - [rjarow](https://github.com/rjarow)
+* **Rich J** - [rjarow](https://github.com/rjarow)
 
 ## License
 
@@ -269,8 +272,11 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## RoadMap
 
 * Add support for debian/centos ?
-* Add drupal support ?
-* Add static website support ?
+* Add drupal /joomla support ?
+* Add static website (hugo/jekyll) support ?
+* Add GravCMS support
+* Docker containers for each of these.
+* TravisCI testing/builds to containah.com
 * Let me know if you have any other suggestions!
 
 
@@ -278,6 +284,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * Fresh Ubuntu 16.04 server.
 ```
+ssh root@server
 apt install software-properties-common git -y
 add-apt-repository ppa:ansible/ansible -y
 apt update
@@ -289,13 +296,17 @@ vim /opt/doowop/group_vars/all
 ansible-playbook /opt/doowop/bootstrap.yml
 passwd runuser
 usermod -aG sudo runuser
-sudo su - runuser
+logout
+ssh runuser@server
+cd /opt/doowop
+
+
 
 ```
 * Point domain to IP of server
 * Wait for propagation
 ```
-ansible-playbook /opt/doowop/dw_deploy.yml
+sudo ansible-playbook /opt/doowop/dw_deploy.yml
 ```
 
 Enjoy!
