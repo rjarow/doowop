@@ -1,0 +1,84 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: doowop
+  become: yes
+
+  vars_prompt:
+    - name: domain
+      prompt: What is the TLD You would like to setup? (ie mydomain.com)
+      private: no
+
+    - name: email
+      prompt: What is the email to send letsencrypt (ssl) emails for this domain?
+      private: no
+
+  tasks:
+
+    - name: Get UID of {{ docker_user }}
+      shell: id -u "{{ docker_user }}"
+      register: docker_user_id
+
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes
+
+    - name: Create website folder structure
+      file:
+        path: "{{ sitedir }}/{{ domain }}/{{ item }}"
+        owner: "{{ docker_user }}"
+        group: "{{ docker_user }}"
+        mode: 0775
+        state: directory
+        recurse: yes
+      with_items:
+        - caddy
+        - web
+
+    - name: Create Grav Docker for  {{ domain }}
+      docker_container:
+        name: "{{ domain }}_grav"
+        image: containah/alpine-nginx-grav
+        state: started
+        restart_policy: unless-stopped
+        volumes:
+          - "{{ sitedir }}/{{ domain }}/web:/usr/html"
+        purge_networks: yes
+        networks:
+          - name: "{{ docker_network_name }}"
+        env:
+          PUID: "{{ docker_user_id.stdout }}"
+          PGID: "{{ docker_user_id.stdout }}"
+          VIRTUAL_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
+          LETSENCRYPT_EMAIL: "{{ email }}"
+
+#    - name: Exporting variables to text file
+#      shell: |
+#       echo '============================================
+#        MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}
+#        MYSQL USER: {{ mysql_user }}
+#        MYSQL PASSWORD: {{ mysql_user_pass.stdout }}
+#        MYSQL DATABASE: {{ mysql_db }}
+#        ============================================
+#          ' >> {{ configdir }}/{{ domain }}.txt
+
+#    - name: Permissions
+#      file:
+#        path: "{{ configdir }}/{{ domain }}.txt"
+#        owner: root
+#        group: root
+#        mode: 0600
+
+#    - name: Variable Information
+#      debug:
+#        msg: "{{ domain }} setup, using git address {{ gitaddress }} - Please allow up to 1 minute to pull and build your site."
+#
+#    - name: Finished!
+#      debug:
+#        msg: "Please visit https://{{ domain }} and wait for it to be built."
