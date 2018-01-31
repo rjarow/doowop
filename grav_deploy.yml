@@ -37,7 +37,6 @@
         state: directory
         recurse: yes
       with_items:
-        - caddy
         - web
 
     - name: Create Grav Docker for  {{ domain }}
