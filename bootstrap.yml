@@ -22,10 +22,8 @@
 ### Optional Tools ###
     - { role: dry, tags: [ "dry" ] } # docker cli management tool
     - { role: borgbackup, tags: [ "borgbackup" ]} # install borg backup utility
+    - { role: restic, tags: [ "restic" ]} # install restic backup utility
 #    - { role: portainer, tags: [ "portainer" ] } # docker web management tool (suggested only if you have the extra memory to spare)
-
-### Static Site Tools ###
-    - { role: hugo, tags: [ "hugo" ] } # https://gohugo.io
 
 
 # todo

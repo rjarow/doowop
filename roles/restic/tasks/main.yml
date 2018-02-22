@@ -1,17 +1,19 @@
 # restic backup app
 # https://restic.net/
 
-- name: Download / Unzip restic binary to /usr/local/bin
-  unarchive:
-    src: https://github.com/restic/restic/releases/download/v{{ resticversion }}/restic_{{ resticversion }}_linux_amd64.bz2
-    dest: /usr/local/bin
-    remote_src: yes
+- name: Download restic compressed binary
+  get_url:
+    url: https://github.com/restic/restic/releases/download/v{{ resticversion }}/restic_{{ resticversion }}_linux_amd64.bz2
+    dest: /root/restic.bz2
 
-- name: symlink to /usr/local/bin
+- name: unzip restic binary and put in /usr/local/bin
+  command: bzip2 -dc /root/restic.bz2 > /usr/local/bin/restic
+  creates: /usr/local/bin/restic
+  warn: no
+
+- name: Set permissions on restic executable
   file:
-    src: /usr/local/bin/restic_{{ resticversion }}_linux_amd64
-    dest: /usr/local/bin/restic
+    path: /usr/local/bin
     owner: root
     group: root
     mode: 0755
-    state: link
