@@ -8,6 +8,9 @@
 
 - name: Unzip restic binary
   command: bzip2 -dq /root/restic.bz2
+  args:
+    creates: /root/restic
+    warn: no
 
 - name: Copy restic into place
   copy:
