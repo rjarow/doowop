@@ -7,9 +7,7 @@
     dest: /root/restic.bz2
 
 - name: Unzip restic binary
-  command: bzip2 -dcq /root/restic.bz2
-  args:
-    creates: /root/restic_{{ resticversion }}_linux_amd64
+  command: bzip2 -dq /root/restic.bz2
 
 - name: Copy restic into place
   copy:
