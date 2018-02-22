@@ -6,14 +6,15 @@
     url: https://github.com/restic/restic/releases/download/v{{ resticversion }}/restic_{{ resticversion }}_linux_amd64.bz2
     dest: /root/restic.bz2
 
-- name: unzip restic binary and put in /usr/local/bin
-  command: bzip2 -dc /root/restic.bz2 > /usr/local/bin/restic
-  creates: /usr/local/bin/restic
-  warn: no
+- name: Unzip restic binary
+  command: bzip2 -dcq /root/restic.bz2
+  args:
+    creates: /root/restic_{{ resticversion }}_linux_amd64
 
-- name: Set permissions on restic executable
-  file:
-    path: /usr/local/bin
+- name: Copy restic into place
+  copy:
+    src: /root/restic_{{ resticversion }}_linux_amd64
+    dest: /usr/local/bin
     owner: root
-    group: root
+    group: 0755
     mode: 0755
