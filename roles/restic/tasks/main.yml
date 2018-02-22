@@ -1,0 +1,17 @@
+# restic backup app
+# https://restic.net/
+
+- name: Download / Unzip restic binary to /usr/local/bin
+  unarchive:
+    src: https://github.com/restic/restic/releases/download/v{{ resticversion }}/restic_{{ resticversion }}_linux_amd64.bz2
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: symlink to /usr/local/bin
+  file:
+    src: /usr/local/bin/restic_{{ resticversion }}_linux_amd64
+    dest: /usr/local/bin/restic
+    owner: root
+    group: root
+    mode: 0755
+    state: link

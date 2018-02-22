@@ -3,7 +3,7 @@
       repo: 'ppa:ansible/ansible'
       state: present
 
-  - name: Upgrade apt to the latest packages
+  - name: Upgrade server to the latest packages
     apt:
       upgrade: dist
       update_cache: yes
