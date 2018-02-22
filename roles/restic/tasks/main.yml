@@ -11,7 +11,7 @@
 
 - name: Copy restic into place
   copy:
-    src: /root/restic_{{ resticversion }}_linux_amd64
+    src: /root/restic
     dest: /usr/local/bin
     owner: root
     group: 0755
