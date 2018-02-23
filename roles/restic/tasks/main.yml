@@ -5,6 +5,7 @@
   get_url:
     url: https://github.com/restic/restic/releases/download/v{{ resticversion }}/restic_{{ resticversion }}_linux_amd64.bz2
     dest: /root/restic.bz2
+    force: yes
 
 - name: Unzip restic binary
   command: bzip2 -dq /root/restic.bz2

@@ -1,0 +1,15 @@
+# rclone backup app
+# https://rclone.org/
+
+- name: Download rclone
+  get_url:
+    url: https://rclone.org/install.sh
+    dest: /root/rclone.sh
+    mode: 0755
+
+- name: Install rclone
+  shell: /root/rclone.sh
+  args:
+    chdir: /root
+    creates: /usr/bin/rclone
+    executable: /bin/bash

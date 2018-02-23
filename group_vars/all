@@ -48,3 +48,11 @@ dockerwp: containah/danwp
 
 # DB Docker Image
 dockerdb: containah/alpine-mariadb
+
+
+###############################################################################
+### Other Variables
+###############################################################################
+
+# if you install restic role, what version you want.
+resticversion: 0.8.2
