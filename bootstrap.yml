@@ -19,13 +19,13 @@
     - { role: ufw, tags: [ "ufw" ] } # firewall install
     - { role: nginx-proxy, tags: [ "nginx-proxy" ] } # The frontend to all websites.
 
-### Optional Tools ###
+### Everything below is optional but adds additional functionality
+
+### Docker Management Tools ###
     - { role: dry, tags: [ "dry" ] } # docker cli management tool
+    #- { role: portainer, tags: [ "portainer" ] } # docker web management tool (suggested only if you have the extra memory to spare)
+
+### Backup Tools
     - { role: borgbackup, tags: [ "borgbackup" ]} # install borg backup utility
-    - { role: restic, tags: [ "restic" ]} # install restic backup utility
-    - { role: rclone, tags: [ "rclone" ]} # install rclone backup utility
-    #    - { role: portainer, tags: [ "portainer" ] } # docker web management tool (suggested only if you have the extra memory to spare)
-
-
-# todo
-# restic
+    - { role: restic, tags: [ "restic" ]} # install restic backup utility (suggested only if you have the extra memory to spare)
+    - { role: rclone, tags: [ "rclone" ]} # install rclone backup utility (suggested only if you have the extra memory to spare)
