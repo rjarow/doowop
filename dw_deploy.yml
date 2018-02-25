@@ -3,14 +3,14 @@
 
 - hosts: doowop
   become: yes
-  
+
   vars:
     mysql_user: wordpress
-    mysql_db: wordpress 
+    mysql_db: wordpress
 
   vars_prompt:
     - name: domain
-      prompt: What is the TLD You would like to setup? (ie mydomain.com) 
+      prompt: What is the TLD You would like to setup? (ie mydomain.com)
       private: no
 
     - name: email
@@ -23,14 +23,14 @@
     - name: Generate some passwords
       shell:  openssl rand -base64 12
       register: mysql_root_pass
-    
+
     - name: Generate more passwords
       shell:  openssl rand -base64 12
       register: mysql_user_pass
 
     - name: Get UID of {{ docker_user }}
       shell: id -u "{{ docker_user }}"
-      register: docker_user_id   
+      register: docker_user_id
 
     - name: Create website folder structure
       file:
@@ -40,7 +40,7 @@
         mode: 0775
         state: directory
         recurse: yes
-    
+
     - name: Create website folder structure
       file:
         path: "{{ sitedir }}/{{ domain }}/{{ item }}"
@@ -48,10 +48,11 @@
         group: "{{ docker_user }}"
         mode: 0775
         state: directory
-        recurse: yes  
+        recurse: yes
       with_items:
         - db
         - web
+        - backup
 
     - name: Create DB for {{ domain }}
       docker_container:
@@ -61,7 +62,7 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/db:/var/lib/mysql"
-        purge_networks: yes  
+        purge_networks: yes
         networks:
           - name: "{{ docker_network_name }}"
         env:
@@ -80,6 +81,7 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/web:/usr/html"
+          - "{{ sitedir }}/{{ domain }}/db:/usr/backup"
         purge_networks: yes
         networks:
           - name: "{{ docker_network_name }}"
@@ -93,7 +95,7 @@
           VIRTUAL_HOST: "{{ domain }}, www.{{ domain }}"
           LETSENCRYPT_HOST: "{{ domain }}, www.{{ domain }}"
           LETSENCRYPT_EMAIL: "{{ email }}"
-        
+
     - name: Exporting variables to text file
       shell: |
         echo '============================================
@@ -105,7 +107,7 @@
           ' >> {{ configdir }}/{{ domain }}.txt
 
     - name: Permissions
-      file: 
+      file:
         path: "{{ configdir }}/{{ domain }}.txt"
         owner: root
         group: root
@@ -114,7 +116,7 @@
     - name: Variable Information
       debug:
         msg: "{{ domain }}_db -- MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}  MYSQL_USER: {{ mysql_user }}  MYSQL_PASSWORD: {{ mysql_user_pass.stdout }} -- Writing to >> {{ configdir }}/{{ domain }}.txt"
-    
+
     - name: Finished!
       debug:
         msg: "Please visit https://{{ domain }} and finish your wordpress setup!"
