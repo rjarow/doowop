@@ -81,7 +81,7 @@
         restart_policy: unless-stopped
         volumes:
           - "{{ sitedir }}/{{ domain }}/web:/usr/html"
-          - "{{ sitedir }}/{{ domain }}/db:/usr/backup"
+          - "{{ sitedir }}/{{ domain }}/backup:/usr/backup"
         purge_networks: yes
         networks:
           - name: "{{ docker_network_name }}"
@@ -99,6 +99,7 @@
     - name: Exporting variables to text file
       shell: |
         echo '============================================
+        Created on: {{ ansible_date_time.date }}
         MYSQL ROOT PASS: {{ mysql_root_pass.stdout }}
         MYSQL USER: {{ mysql_user }}
         MYSQL PASSWORD: {{ mysql_user_pass.stdout }}
